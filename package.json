@@ -1,5 +1,5 @@
 {
-  "name": "openi2c-INA226",
+  "name": "openi2c-ina226",
   "version": "0.0.1",
   "description": "INA226 current sensor driver bindings",
   "main": "dist/index.js",
