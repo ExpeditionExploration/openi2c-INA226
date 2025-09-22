@@ -1,8 +1,8 @@
 {
-  "name": "ina219",
+  "name": "openi2c-INA226",
   "version": "0.0.1",
-  "description": "INA219 current sensor driver bindings",
-  "main": "index.js",
+  "description": "INA226 current sensor driver bindings",
+  "main": "dist/index.js",
   "directories": {
     "test": "tests"
   },
@@ -15,7 +15,7 @@
     "bear-rebuild": "bear -- node-gyp rebuild && tsc"
   },
   "keywords": [
-    "INA219", "OpenI2C"
+    "INA226", "OpenI2C"
   ],
   "author": "",
   "license": "MIT",

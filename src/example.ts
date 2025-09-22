@@ -5,7 +5,7 @@ import { sleep } from "./utils";
 
 async function main() {
     // Initialize the INA226 sensor
-    await bindings.init(1, 0x40, 0.1,
+    bindings.init(1, 0x40, 0.1,
         INA226ConversionTime.CONVERSION_TIME_1P1_MS,
         INA226ConversionTime.CONVERSION_TIME_1P1_MS,
         INA226AverageMode.INA226_AVG_16,
@@ -13,7 +13,7 @@ async function main() {
     );
     console.log("INA226 initialized successfully.");
     console.log("Sensor information:");
-    const info = await bindings.getSensorInfo();
+    const info = bindings.getSensorInfo();
     console.log(`chipName: ${info.chipName}`);
     console.log(`manufacturerName: ${info.manufacturerName}`);
     console.log(`interface: ${info.interface}`);
@@ -24,16 +24,16 @@ async function main() {
     console.log(`temperatureMax: ${info.temperatureMax} °C`);
     console.log(`driverVersion: ${info.driverVersion}`);
     console.log("-------------------------------");
-    console.log("Reset and re-initialize the INA219 sensor.");
+    console.log("Reset and re-initialize the INA226 sensor.");
 
     while (true) {
-        const shuntVoltage = await bindings.getShuntVoltage();
-        const busVoltage = await bindings.getBusVoltage();
-        const current = await bindings.getCurrent();
-        console.log(`Shunt Voltage: ${shuntVoltage} mV`);
-        console.log(`Bus Voltage: ${busVoltage} mV`);
-        console.log(`Current: ${current} mA`);
-        console.log(`Power: ${bindings.getPower()} mW`);
+        const shuntVoltage = bindings.getShuntVoltage();
+        const busVoltage = bindings.getBusVoltage();
+        const current = bindings.getCurrent();
+        console.log(`Shunt Voltage: ${shuntVoltage.toFixed(2)} mV`);
+        console.log(`Bus Voltage: ${busVoltage.toFixed(2)} mV`);
+        console.log(`Current: ${current.toFixed(2)} mA`);
+        console.log(`Power: ${bindings.getPower().toFixed(2)} mW`);
         await sleep(1000); // Wait for 1 second before the next reading
         console.log("-------------------------------");
     }
