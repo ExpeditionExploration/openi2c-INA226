@@ -44,13 +44,17 @@ napi_value ina226_info_wrapper(napi_env env, napi_callback_info info) {
  * - `addr`: The I2C address of the INA226 sensor. Possible values are
  *           enumerated in `I2CAddress` enum.
  * - `r`: The shunt resistor value in ohms.
+ * - `conversion_time_shunt`: Conversion time for shunt voltage.
+ * - `conversion_time_bus`: Conversion time for bus voltage.
+ * - `averaging_mode`: Averaging mode.
+ * - `mode`: Operating mode (triggered/continuous)
  */
 napi_value basic_init(napi_env env, napi_callback_info info) {
 
-    size_t argc = 3;
+    size_t argc = 7;
     napi_value argv[argc], this;
     napi_get_cb_info(env, info, &argc, argv, &this, NULL);
-    if (argc != 3) {
+    if (argc != 7) {
         napi_throw_error(env, WRONG_NUMBER_OF_ARGUMENTS,
                          "Check number of arguments for fn: basic_init(..)");
         return NULL;
@@ -82,6 +86,42 @@ napi_value basic_init(napi_env env, napi_callback_info info) {
     if (status != napi_ok) {
         napi_throw_error(env, ERROR_CREATING_NAPI_VALUE,
                          "Failed to create NAPI value for r");
+        return NULL;
+    }
+
+    // Parse the fourth argument (conversion_time_shunt)
+    int32_t conversion_time_shunt;
+    status = napi_get_value_int32(env, argv[3], &conversion_time_shunt);
+    if (status != napi_ok) {
+        napi_throw_error(env, ERROR_CREATING_NAPI_VALUE,
+                         "Failed to create NAPI value for conversion_time_shunt");
+        return NULL;
+    }
+
+    // Parse the fifth argument (converion_time_bus)
+    int32_t conversion_time_bus;
+    status = napi_get_value_int32(env, argv[4], &conversion_time_bus);
+    if (status != napi_ok) {
+        napi_throw_error(env, ERROR_CREATING_NAPI_VALUE,
+                         "Failed to create NAPI value for conversion_time_bus");
+        return NULL;
+    }
+
+    // Parse the sixth argument (averaging mode)
+    int32_t averaging_mode;
+    status = napi_get_value_int32(env, argv[5], &averaging_mode);
+    if (status != napi_ok) {
+        napi_throw_error(env, ERROR_CREATING_NAPI_VALUE,
+                         "Failed to create NAPI value for averaging_mode");
+        return NULL;
+    }
+
+    // Parse the seventh argument (operating mode)
+    int32_t mode;
+    status = napi_get_value_int32(env, argv[6], &mode);
+    if (status != napi_ok) {
+        napi_throw_error(env, ERROR_CREATING_NAPI_VALUE,
+                         "Failed to create NAPI value for mode");
         return NULL;
     }
 
@@ -150,9 +190,9 @@ napi_value basic_init(napi_env env, napi_callback_info info) {
             return NULL;
     }
     
-    /* set default average mode */
+    /* set average mode */
     res = ina226_set_average_mode(&ina226_iic_handle,
-        INA226_AVG_16);
+        averaging_mode);
     if (res != 0)
     {
         ina226_interface_debug_print("ina226: set average mode failed.\n");
@@ -163,7 +203,7 @@ napi_value basic_init(napi_env env, napi_callback_info info) {
     
     /* set default bus voltage conversion time */
     res = ina226_set_bus_voltage_conversion_time(&ina226_iic_handle,
-        INA226_CONVERSION_TIME_1P1_MS);
+        conversion_time_bus);
     if (res != 0)
     {
         ina226_interface_debug_print(
@@ -175,10 +215,12 @@ napi_value basic_init(napi_env env, napi_callback_info info) {
     }
     
     /* set default shunt voltage conversion time */
-    res = ina226_set_shunt_voltage_conversion_time(&ina226_iic_handle, INA226_CONVERSION_TIME_1P1_MS);
+    res = ina226_set_shunt_voltage_conversion_time(
+        &ina226_iic_handle, conversion_time_shunt);
     if (res != 0)
     {
-        ina226_interface_debug_print("ina226: set shunt voltage conversion time failed.\n");
+        ina226_interface_debug_print(
+            "ina226: set shunt voltage conversion time failed.\n");
         (void)ina226_deinit(&ina226_iic_handle);
         napi_throw_error(env, INIT_ERROR,
             "Failed to set INA226 shunt voltage conversion time");
@@ -206,7 +248,7 @@ napi_value basic_init(napi_env env, napi_callback_info info) {
     }
     
     /* set shunt bus voltage continuous */
-    res = ina226_set_mode(&ina226_iic_handle, INA226_MODE_SHUNT_BUS_VOLTAGE_CONTINUOUS);
+    res = ina226_set_mode(&ina226_iic_handle, mode);
     if (res != 0)
     {
         ina226_interface_debug_print("ina226: set mode failed.\n");

@@ -1,11 +1,16 @@
 
 import { bindings } from ".";
-import { INA226Mode } from "./types";
+import { INA226Mode, INA226ConversionTime, INA226AverageMode } from "./types";
 import { sleep } from "./utils";
 
 async function main() {
     // Initialize the INA226 sensor
-    await bindings.init(1, 0x40, 0.1);
+    await bindings.init(1, 0x40, 0.1,
+        INA226ConversionTime.CONVERSION_TIME_1P1_MS,
+        INA226ConversionTime.CONVERSION_TIME_1P1_MS,
+        INA226AverageMode.INA226_AVG_16,
+        INA226Mode.SHUNT_BUS_VOLTAGE_CONTINUOUS
+    );
     console.log("INA226 initialized successfully.");
     console.log("Sensor information:");
     const info = await bindings.getSensorInfo();
