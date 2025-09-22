@@ -86,7 +86,18 @@ export type INA226Info = {
 }
 
 export type INA226 = {
-    /// Basic initialization of the INA226 sensor.
+    /**
+     * Basic init of INA226
+     * 
+     * params:
+     *  - *bus* - I2C bus number
+     *  - *addr* - I2C address
+     *  - *r* - shunt resistor value in ohms
+     *  - *conversion_time_shunt* - shunt voltage conversion time
+     *  - *conversion_time_bus* - bus voltage conversion time
+     *  - *averaging_mode* - averaging mode
+     *  - *mode* - operating mode
+     */
     init: (
         bus: number, addr: number, r: number,
         conversion_time_shunt: INA226ConversionTime,
