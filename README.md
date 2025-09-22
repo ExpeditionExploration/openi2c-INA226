@@ -1,6 +1,6 @@
-# INA219 driver NodeJS-interface
+# INA226 driver NodeJS-interface
 
-Datasheet: http://www.adafruit.com/datasheets/ina219.pdf
+Datasheet: https://www.ti.com/lit/ds/symlink/ina226.pdf
 
 This standalone interface provides I2C driver bindings for
 [OpenI2C](https://github.com/ExpeditionExploration/openi2c/).
@@ -8,8 +8,8 @@ This standalone interface provides I2C driver bindings for
 
 ## About
 
-INA219 is a current, voltage and power measurement module. This TypeScript
-module wraps the [LibDriver INA219](https://github.com/libdriver/ina219) driver.
+INA226 is a current, voltage and power measurement module. This TypeScript
+module wraps the [LibDriver INA226](https://github.com/libdriver/ina226) driver.
 
 This repo contains Node bindings to that driver. The LibDriver's driver isn't
 Linux specific, but these bindings are.
@@ -68,5 +68,4 @@ After building you can run `npx ts-node src/example.ts` to run the example file.
 ## Tested boards
 
 This has been tested on:
-- *Raspberry Pi 4B* using *Node v22.14.0*
-- *Orange Pi CM5* using *Node v20.19.1*
+- *Raspberry Pi 4B* using *Node v22.18.0*
