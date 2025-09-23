@@ -1,6 +1,7 @@
 #include <node/node_api.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -37,7 +38,7 @@ napi_value ina226_info_wrapper(napi_env env, napi_callback_info info) {
 }
 
 /**
- * Initialize the INA226 sensor for continuous mode.
+ * Initialize the INA226.
  *
  * Takes configuration object with following keys when calling from JavaScript:
  * - `i2c_device`: The I2C bus number`.
@@ -446,8 +447,8 @@ napi_value ina226_set_mode_wrapper(napi_env env, napi_callback_info info) {
         return NULL;
     }
 
-    uint32_t mode;
-    napi_status status = napi_get_value_uint32(env, argv[0], &mode);
+    int32_t mode;
+    napi_status status = napi_get_value_int32(env, argv[0], &mode);
     if (status != napi_ok) {
         napi_throw_error(env, ERROR_CREATING_NAPI_VALUE,
                          "Failed to create NAPI value for mode");

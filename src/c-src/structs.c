@@ -62,7 +62,7 @@ napi_value ina226_info_to_js(napi_env env, const ina226_info_t *info) {
 
     if (status != napi_ok) {
         napi_throw_error(env, ERROR_CREATING_NAPI_VALUE,
-                         "fn: ina219_info_to_js");
+                         "fn: ina226_info_to_js");
         return NULL;
     }
 
@@ -102,7 +102,7 @@ napi_value ina226_handle_t_to_js(napi_env env, ina226_handle_t *handle) {
                                          finalize_handle, NULL, &jsHandle);
     if (status != napi_ok) {
         napi_throw_error(env, ERROR_CREATING_NAPI_VALUE,
-                         "fn: mk_ina219_handle_t");
+                         "fn: mk_ina226_handle_t");
         return NULL;
     }
 
