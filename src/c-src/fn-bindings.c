@@ -247,8 +247,8 @@ napi_value basic_init(napi_env env, napi_callback_info info) {
         return NULL;
     }
     
-    /* set shunt bus voltage continuous */
-    res = ina226_set_mode(&ina226_iic_handle, mode);
+    /* set operating mode */
+    res = ina226_set_mode(&ina226_iic_handle, (ina226_mode_t)mode);
     if (res != 0)
     {
         ina226_interface_debug_print("ina226: set mode failed.\n");
@@ -268,7 +268,7 @@ napi_value ina226_read_shunt_voltage_wrapper(napi_env env,
     if (argc != 0) {
         napi_throw_error(env, WRONG_NUMBER_OF_ARGUMENTS,
                          "Check number of arguments for fn:"
-                         " ina219_read_shunt_voltage_wrapper(..)");
+                         " ina226_read_shunt_voltage_wrapper(..)");
         return NULL;
     }
 
@@ -300,7 +300,7 @@ napi_value ina226_read_bus_voltage_wrapper(napi_env env,
     if (argc != 0) {
         napi_throw_error(env, WRONG_NUMBER_OF_ARGUMENTS,
                          "Check number of arguments for fn:"
-                         " ina219_read_bus_voltage_wrapper(..)");
+                         " ina226_read_bus_voltage_wrapper(..)");
         return NULL;
     }
 
@@ -330,7 +330,7 @@ napi_value ina226_read_current_wrapper(napi_env env, napi_callback_info info) {
     if (argc != 0) {
         napi_throw_error(env, WRONG_NUMBER_OF_ARGUMENTS,
                          "Check number of arguments for fn:"
-                         " ina219_read_current_wrapper(..)");
+                         " ina226_read_current_wrapper(..)");
         return NULL;
     }
 
@@ -388,7 +388,7 @@ napi_value ina226_soft_reset_wrapper(napi_env env, napi_callback_info info) {
     if (argc != 0) {
         napi_throw_error(env, WRONG_NUMBER_OF_ARGUMENTS,
                          "Check number of arguments for fn:"
-                         " ina219_soft_reset_wrapper(..)");
+                         " ina226_soft_reset_wrapper(..)");
         return NULL;
     }
     uint8_t res = ina226_soft_reset(&ina226_iic_handle);
@@ -442,7 +442,7 @@ napi_value ina226_set_mode_wrapper(napi_env env, napi_callback_info info) {
     if (argc != 1) {
         napi_throw_error(
             env, WRONG_NUMBER_OF_ARGUMENTS,
-            "Check number of arguments for fn: ina219_set_mode_wrapper(..)");
+            "Check number of arguments for fn: ina226_set_mode_wrapper(..)");
         return NULL;
     }
 
